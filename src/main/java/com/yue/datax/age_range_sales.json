@@ -1,0 +1,57 @@
+{
+    "job": {
+        "setting": {
+            "speed": {
+                "channel": 3
+            }
+        },
+        "content": [
+            {
+                "reader": {
+                    "name": "hdfsreader",
+                    "parameter": {
+                        "path": "/shanxi_cars/gender_age/*",
+                        "defaultFS": "hdfs://master:8020",
+                        "column": [
+                               {
+                                "index": 0,
+                                "type": "string"
+                               },
+                               {
+                                "index": 1,
+                                "type": "string"
+                               }
+                        ],
+                        "fileType": "text",
+                        "encoding": "UTF-8",
+                        "fieldDelimiter": "\t"
+                    }
+
+                },
+                "writer": {
+                    "name": "mysqlwriter",
+                    "parameter": {
+                        "writeMode": "insert",
+                        "username": "yoseng",
+                        "password": "Yoseng123@",
+                        "column": [
+                            "age_range",
+                            "count"
+                        ],
+                        "preSql": [
+                            "delete from age_range_sales"
+                        ],
+                        "connection": [
+                            {
+                                "jdbcUrl": "jdbc:mysql://slave3:3306/shanxi_cars?useUnicode=true&characterEncoding=utf-8",
+                                "table": [
+                                    "age_range_sales"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}
